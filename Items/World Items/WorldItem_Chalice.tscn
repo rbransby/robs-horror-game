@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://d184305vweeef"]
+
+[ext_resource type="Script" path="res://Items/WorldItem.gd" id="1_ex53l"]
+[ext_resource type="Material" uid="uid://mj84qqr0mc2g" path="res://Models/Chalice/Chalice.tres" id="2_bu7u8"]
+[ext_resource type="ArrayMesh" uid="uid://bpocy4vwis0ms" path="res://Models/Chalice/Chalice.obj" id="3_srqu8"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tbbw0"]
+height = 3.95481
+radius = 1.17629
+
+[node name="WorldItem_Chalice" type="StaticBody3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 4.26466, 0.161908, 21.332)
+script = ExtResource("1_ex53l")
+item_name = "Chalice"
+interact_prompt = "Pick up"
+
+[node name="Model" type="MeshInstance3D" parent="."]
+material_override = ExtResource("2_bu7u8")
+mesh = ExtResource("3_srqu8")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.338702, 0)
+shape = SubResource("CylinderShape3D_tbbw0")
