@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://wgbjqg5jcifm"]
+
+[ext_resource type="Script" path="res://AI/AIController.gd" id="1_owuc0"]
+[ext_resource type="PackedScene" uid="uid://c2tcjs26j25ww" path="res://AI/Alien/alien-bug.glb" id="2_0el6y"]
+[ext_resource type="Script" path="res://AI/StateMachine.gd" id="3_724q1"]
+[ext_resource type="Script" path="res://AI/States/WanderState.gd" id="4_e2pkm"]
+[ext_resource type="Script" path="res://AI/States/ChaseState.gd" id="5_1t2vu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8j5rt"]
+radius = 0.285722
+height = 0.702106
+
+[node name="Enemy" type="CharacterBody3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 3.24668, -0.0698268, -6.30035)
+script = ExtResource("1_owuc0")
+
+[node name="alien-bug" parent="." instance=ExtResource("2_0el6y")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012908, 0.289472, -0.000648499)
+shape = SubResource("CapsuleShape3D_8j5rt")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("default_state")]
+script = ExtResource("3_724q1")
+default_state = NodePath("Wander")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("4_e2pkm")
+max_wander_range = 12.0
+controller_path = NodePath("../..")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("5_1t2vu")
+lose_interest_range = 15.0
+controller_path = NodePath("../..")
+
+[connection signal="target_reached" from="NavigationAgent3D" to="StateMachine" method="on_target_reached"]

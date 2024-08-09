@@ -47,3 +47,4 @@ func _physics_process(delta):
 func on_target_reached ():
 	if current_state != null:
 		current_state.navigation_complete()
+
